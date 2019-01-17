@@ -13,10 +13,9 @@ import android.widget.TextView;
 
 
 import com.bumptech.glide.Glide;
+import com.example.logan.movie1.DetailActivity;
 import com.example.logan.movie1.R;
 import com.example.logan.movie1.models.Movie;
-
-import org.parceler.Parcels;
 
 import java.util.List;
 import java.util.Map;
@@ -77,9 +76,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
                     load(movie.getPosterPath())
                     .into(ivPoster);
             Log.d("Logan", movie.getPosterPath());
-//            container.setOnClickListener(v -> {
-//
-//            });
+            container.setOnClickListener(v -> {
+                Intent intent = new Intent(context, DetailActivity.class);
+                intent.putExtra(MVBUNDLE, movie);
+                context.startActivity(intent);
+            });
         }
     }
 

@@ -1,6 +1,7 @@
 package com.example.logan.movie1.models;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Parcel
-public class Movie {
+public class Movie implements Parcelable{
     private int id;
     private String posterPath, title, overView;
     private double rating;
@@ -36,6 +37,15 @@ public class Movie {
         this.title = bundle.getString(TITLE);
         this.overView = bundle.getString(OVERVIEW);
     }
+
+    protected Movie(android.os.Parcel in) {
+        id = in.readInt();
+        posterPath = in.readString();
+        title = in.readString();
+        overView = in.readString();
+        rating = in.readDouble();
+    }
+
 
     //This method takes a JsonArray
     // and iterates through it
@@ -95,4 +105,30 @@ public class Movie {
         bundle.putString(OVERVIEW, overView);
         return bundle;
     }
+
+    //for Parcelable
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(android.os.Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(posterPath);
+        dest.writeString(overView);
+        dest.writeString(title);
+        dest.writeDouble(rating);
+    }
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(android.os.Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
 }
